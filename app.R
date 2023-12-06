@@ -9,7 +9,7 @@ ui <- fluidPage(
   conditionalPanel("input.start==0",
                    fluidRow(
                      column(width = 12,align="center",
-                       h2("Room 7 Paper Rock Scissor Battle"),
+                       h2("Room 7 Rock Paper Scissors Battle"),
                        img(src = "logo.jpg")
                      )
                    ),
