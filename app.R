@@ -157,7 +157,9 @@ server <- function(input, output) {
     }
     
     output$winner_table=renderPrint({
-      sort(table(vals$thelist$winners),decreasing = TRUE)
+      if(length(vals$thelist$winners)>0){
+        sort(table(vals$thelist$winners),decreasing = TRUE)
+      }
     })
     
     output$thewinner=renderText({
