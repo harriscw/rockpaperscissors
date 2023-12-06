@@ -124,7 +124,7 @@ server <- function(input, output) {
       div(
         fluidRow(
           img(src = paste0(player2_throw,".png"),height="30%", width="30%"),
-          fluidRow(h3(paste(toupper(player1_throw),"!")))
+          fluidRow(h3(paste(toupper(player2_throw),"!")))
         )
       )
     })
