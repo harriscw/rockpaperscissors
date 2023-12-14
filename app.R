@@ -41,7 +41,9 @@ ui <- fluidPage(
                    fluidRow(
                      column(width = 5,align="center",uiOutput("player1_throw_display")
                             ),
-                     column(width = 2,align="center",h1(textOutput("thewinner"))),
+                     column(width = 2,align="center",
+                            conditionalPanel("output.show_window == true",
+                                              h1(textOutput("thewinner")))),
                      column(width = 5,align="center",uiOutput("player2_throw_display")
                             )
                    ),
@@ -68,7 +70,14 @@ server <- function(input, output) {
   vals=reactiveValues(thelist=list("winners"=c()))
   theplayers=list.files("www/players")
   
+  
+  
+  
   observeEvent(input$newplayers, {
+    
+    output$show_window=reactive({FALSE})
+    outputOptions(output, "show_window", suspendWhenHidden = FALSE)
+    
     
     # select players
     player1=sample(theplayers,1)
@@ -104,11 +113,23 @@ server <- function(input, output) {
   
   observeEvent(input$battle, {
     
+    output$show_window=reactive({TRUE})
+    # outputOptions(output, "show_window", suspendWhenHidden = FALSE)
+    
     if(input$newplayers>0){
   
     # do some throws
-    player1_throw=sample(c("paper","rock","scissors"),1)
-    player2_throw=sample(c("paper","rock","scissors"),1)
+      if(runif(1)<.05){
+        player1_throw="socks"
+      }else{
+        player1_throw=sample(c("paper","rock","scissors"),1)
+      }
+      
+      if(runif(1)<.05){
+        player2_throw="socks"
+      }else{
+        player2_throw=sample(c("paper","rock","scissors"),1)
+      }
     
     # display it
     output$player1_throw_display=renderUI({
@@ -132,6 +153,10 @@ server <- function(input, output) {
     # get results
     if(player1_throw==player2_throw){
       winner="Tie"
+    }else if(player1_throw=="socks"){
+      winner="Player 1"
+    }else if(player2_throw=="socks"){
+      winner="Player 2"
     }else if(player1_throw=="rock" & player2_throw=="scissors"){
       winner="Player 1"
     }else if(player1_throw=="rock" & player2_throw=="paper"){
@@ -163,6 +188,8 @@ server <- function(input, output) {
     })
     
     output$thewinner=renderText({
+
+      
       if(winner=="Player 1"){
         paste(toupper(vals$thelist[["player1"]]),"wins!")
       }else if(winner=="Player 2"){
