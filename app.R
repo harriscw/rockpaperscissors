@@ -39,13 +39,14 @@ ui <- fluidPage(
                      )
                    ),
                    fluidRow(
-                     column(width = 5,align="center",uiOutput("player1_throw_display")
-                            ),
-                     column(width = 2,align="center",
-                            conditionalPanel("output.show_window == true",
-                                              h1(textOutput("thewinner")))),
-                     column(width = 5,align="center",uiOutput("player2_throw_display")
-                            )
+                     conditionalPanel("output.show_window == true",
+                       column(width = 5,align="center",uiOutput("player1_throw_display")
+                              ),
+                       column(width = 2,align="center",
+                                                h1(textOutput("thewinner"))),
+                       column(width = 5,align="center",uiOutput("player2_throw_display")
+                              )
+                     )
                    ),
                    hr(),
                    fluidRow(
